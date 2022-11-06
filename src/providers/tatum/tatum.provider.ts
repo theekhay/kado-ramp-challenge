@@ -2,11 +2,10 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { TransferCryptoDTO } from '../../interfaces/transferCrypto.dto';
 import { GenericResponseModel } from '../../models/generic-response-model';
 import { TatumEthTransferPayload } from './tatum.cryptotransfer.request';
-import RequestUtil from '../../utils/request.utils';
-import ICryptoTransferProvider from '../../interfaces/ICryptoTransferProvider';
 import { GetQuoteDTO } from '../../modules/order/dto/get-quote.dto';
 import { ProviderQuoteResponse } from '../../models/get-quote-response.model';
-
+import RequestUtil from '../../utils/request.utils';
+import ICryptoTransferProvider from '../../interfaces/ICryptoTransferProvider';
 @Injectable()
 export default class TatumProvider implements ICryptoTransferProvider {
   async requeryTransferTransaction(hash: string): Promise<
