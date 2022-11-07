@@ -37,14 +37,14 @@ export class OrderService {
       const transferRequest: TransferCryptoDTO = {
         amount: payload.cryptoUnitCount,
         recipientAddress: payload.walletAddress,
-        crypto: payload.cryptoCurrencyName,
+        crypto: payload.crypto,
         meta: reference,
       };
 
       console.log('transferRequest \n %o', transferRequest);
 
       const provider = await this.rampProviderFactory.getCryptoTransferProvider(
-        payload?.cryptoCurrencyName,
+        payload?.crypto,
       );
       const transferResponse = await provider.transferCrypto(transferRequest);
 
@@ -52,7 +52,7 @@ export class OrderService {
         ...payload,
         reference,
         quantity: payload.cryptoUnitCount,
-        currency: payload.cryptoCurrencyName,
+        currency: payload.crypto,
         user: user?._id,
         transferResponse: JSON.stringify(transferResponse),
         status: PaymentStatus.SUCCESS,
@@ -114,7 +114,7 @@ export class OrderService {
         ...payload,
         reference,
         quantity: payload.cryptoUnitCount,
-        currency: payload.cryptoCurrencyName,
+        currency: payload.crypto,
         user: user?._id,
         transferResponse: JSON.stringify(error?.response?.data || error),
         status: PaymentStatus.FAILED,

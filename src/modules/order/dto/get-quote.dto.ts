@@ -1,20 +1,29 @@
 import { IsNotEmpty, IsNumberString, IsString } from 'class-validator';
-import {
-  SupportedCrypto,
-  SupportedFiat,
-  Tradable,
-} from '../../../enums/supportcryptos.enum';
+import { Tradable } from '../../../enums/supportcryptos.enum';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class GetQuoteDTO {
+  @ApiProperty({
+    example: 'ETH',
+    description: 'baseCurrency',
+  })
   @IsNotEmpty()
   @IsString()
   baseCurrency: Tradable;
 
+  @ApiProperty({
+    example: 0.3,
+    description: 'quote amount',
+  })
   @IsNotEmpty()
   @IsNumberString()
   amount: number;
 
+  @ApiProperty({
+    example: 'USD',
+    description: 'target currency',
+  })
   @IsNotEmpty()
   @IsString()
-  targetCurrency: SupportedCrypto | SupportedFiat;
+  targetCurrency: Tradable;
 }
