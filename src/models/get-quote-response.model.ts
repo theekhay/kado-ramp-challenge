@@ -25,7 +25,7 @@ export class GetQuoteResponse extends ProviderQuoteResponse {
   'expectedPayment': number;
 
   @ApiProperty({
-    example: 100,
+    example: 0.002,
     description: 'Estimated Charge for this transaction',
   })
   'charge': number;
