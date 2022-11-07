@@ -14,7 +14,7 @@ export class CommonUtil {
     return `EX_${CommonUtil.generateRandomString(7)}`;
   };
 
-  static randomNumericString = (length: number) => {
+  static randomNumeric = (length: number) => {
     return randomstring.generate({
       length,
       charset: 'numeric',

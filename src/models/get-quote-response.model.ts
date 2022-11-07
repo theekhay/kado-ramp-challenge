@@ -11,7 +11,7 @@ export class ProviderQuoteResponse {
   'baseValue': number;
 
   @ApiProperty({
-    example: 0.3,
+    example: 'USD',
     description: 'Target currency for quote',
   })
   'targetCurrency'?: Tradable;
@@ -22,5 +22,11 @@ export class GetQuoteResponse extends ProviderQuoteResponse {
     example: 100,
     description: 'Quote Value',
   })
-  'targetValue': number;
+  'expectedPayment': number;
+
+  @ApiProperty({
+    example: 100,
+    description: 'Estimated Charge for this transaction',
+  })
+  'charge': number;
 }
