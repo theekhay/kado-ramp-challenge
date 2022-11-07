@@ -30,13 +30,13 @@ export class OrderController {
   @ApiResponse({
     status: 200,
     description: 'ok.',
-    type: GenericResponseModel,
+    type: FulfillOrderResponse,
     // eslint-disable-next-line prettier/prettier
   })
   async createOrder(
     @Req() req: IAuthenticatedReq,
     @Body() payload: FulfillOrderDTO,
-  ): Promise<FulfillOrderResponse> {
+  ): Promise<GenericResponseModel<FulfillOrderResponse>> {
     try {
       return await this.orderService.fulfillOrder(payload, req.user);
     } catch (error) {

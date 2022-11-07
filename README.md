@@ -25,7 +25,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Assessment] Development of a simple ramp application.
 
 ## Installation
 
@@ -45,6 +45,32 @@ $ npm run dev
 ```bash
 # running unit tests
 $ npm run test
+```
+
+
+## Environmental variables
+
+```bash
+
+#Tatum API key ( gotten on account dashboard)
+- TATUM_API_KEY=xxx
+- TATUM_BASE_URL=https://api.tatum.io
+- TATUM_ETH_TRANSFER_ENDPOINT=/v3/ethereum/transaction
+- TATUM_RATE_ENDPOINT=/v3/tatum/rate/{currency}
+- TATUM_REQUERY_ETH_TRANSACTION=/v3/ethereum/transaction/{hash}
+
+# Settlement ETH address (This is a private key and should not be exposed)
+- ETH_WALLET_ADDRESS=xxx
+
+#Port number
+- PORT=xxxx
+
+# MONGO DB connection string
+- MONGO_URI=xxx
+
+# Self-hosted notification service credentials
+- NOTIFICATION_SERVICE_HOST=xxx
+- NOTIFICATION_SERVICE_PORT=xxx
 ```
 
 ## Docker

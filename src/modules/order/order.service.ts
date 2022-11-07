@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { InjectModel } from '@nestjs/mongoose';
 import { UserDocument } from '../user/user.schema';
 import { FulfillOrderDTO } from './dto/fulfill-order.dto';
@@ -54,7 +55,7 @@ export class OrderService {
         quantity: payload.cryptoUnitCount,
         currency: payload.crypto,
         user: user?._id,
-        transferResponse: JSON.stringify(transferResponse),
+        transferResponse: JSON.stringify(transferResponse?.response),
         status: PaymentStatus.SUCCESS,
         processor: 'tatum',
       });
@@ -65,7 +66,15 @@ export class OrderService {
       return new GenericResponseModel(
         KadoResponseStatus.SUCCESS,
         'Operation Successful',
-        order,
+        {
+          reference,
+          hash: transferResponse?.hash,
+          quantity: payload.cryptoUnitCount,
+          crypto: payload.crypto,
+          status: order.status,
+          fiat: payload.fiat,
+          fiatValue: payload.fiatValue,
+        },
       );
     } catch (error) {
       console.error('fulfillOrder error \n %o', error);
@@ -84,14 +93,15 @@ export class OrderService {
     try {
       const provider = await this.rampProviderFactory.getQuoteProvider();
       const quoteResponse = await provider.getQuote(getQuoteDTO);
+      const charge = this.getCharge(getQuoteDTO);
 
-      const targetValue = getQuoteDTO.amount
-        ? getQuoteDTO.amount * quoteResponse.baseValue
+      const expectedPayment = getQuoteDTO.amount
+        ? (getQuoteDTO.amount * quoteResponse.baseValue) + charge
         : null;
       return new GenericResponseModel(
         KadoResponseStatus.SUCCESS,
         'Quote returned successfully',
-        { ...quoteResponse, targetValue },
+        { ...quoteResponse, expectedPayment, charge },
       );
     } catch (error) {
       console.error('getQuote error \n %o', error);
@@ -101,6 +111,11 @@ export class OrderService {
         null,
       );
     }
+  }
+
+  getCharge(getOrderCharge: GetQuoteDTO): number {
+    //NB: This simulates getting the internal charge for an order
+    return Number(Math.random().toFixed(2));
   }
 
   private async handleTransferError(

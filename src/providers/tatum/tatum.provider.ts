@@ -4,6 +4,7 @@ import { GenericResponseModel } from '../../models/generic-response-model';
 import { TatumEthTransferPayload } from './tatum.cryptotransfer.request';
 import { GetQuoteDTO } from '../../modules/order/dto/get-quote.dto';
 import { ProviderQuoteResponse } from '../../models/get-quote-response.model';
+import { ProviderFulfillOrderResponse } from '../../models/fulfill-order-response.model';
 import RequestUtil from '../../utils/request.utils';
 import ICryptoTransferProvider from '../../interfaces/ICryptoTransferProvider';
 @Injectable()
@@ -35,7 +36,9 @@ export default class TatumProvider implements ICryptoTransferProvider {
     }
   }
 
-  async transferCrypto(transferCryptoDTO: TransferCryptoDTO): Promise<any> {
+  async transferCrypto(
+    transferCryptoDTO: TransferCryptoDTO,
+  ): Promise<ProviderFulfillOrderResponse> {
     try {
       console.info('transferCryptoDTO: \n %o', transferCryptoDTO);
 
@@ -60,7 +63,11 @@ export default class TatumProvider implements ICryptoTransferProvider {
         })
       ).data;
       console.info('transferCryptoResponse: \n %o', transferCryptoResponse);
-      return transferCryptoResponse;
+
+      return {
+        response: transferCryptoResponse,
+        hash: transferCryptoResponse?.txId,
+      };
     } catch (error) {
       console.error('initiateTransfer error \n %o', error);
       throw new HttpException(
